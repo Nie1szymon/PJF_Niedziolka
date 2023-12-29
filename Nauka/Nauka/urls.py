@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Terminale.views import history
+from Terminale.views import history, dodaj_terminal, lista_terminali
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('history/',history)
+    path('history/',history),
+    path('dodaj_terminal/',dodaj_terminal),
+    path('lista_terminali',lista_terminali)
 ]
