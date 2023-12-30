@@ -1,5 +1,6 @@
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponse
 from django.template import loader
@@ -24,6 +25,7 @@ def history(request):
   })
 
 
+@login_required
 def dodaj_terminal(request):
   if request.method == 'POST':
     form = TerminaleForm(request.POST)
