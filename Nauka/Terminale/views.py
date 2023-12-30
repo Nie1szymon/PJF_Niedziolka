@@ -31,7 +31,7 @@ def dodaj_terminal(request):
     form = TerminaleForm(request.POST)
     if form.is_valid():
       form.save()
-      return redirect('lista_terminali')
+      return redirect('../lista_terminali')
   else:
     form = TerminaleForm()
   return render(request, 'dodaj_terminal.html', {
@@ -43,5 +43,4 @@ def lista_terminali(request):
   terminal = Terminale.objects.all()
   return render(request, 'lista_terminali.html', {
     'terminal': terminal,
-    'csrf_token': get_token()
   })
