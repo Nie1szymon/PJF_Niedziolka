@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista terminali</title>
+</head>
+<body>
+    <div class="page-header">
+        <h3><a href="./addModel/">Dodaj nowy model terminal</a></h3>
+            <h1><a href="/">List Terminali</a></h1>
+    </div>
+    <h1>Lista terminali</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Model</th>
+                <th>Stan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in terminals %}
+                <tr>
+                    <td><a href="{% url 'home' %}">{{ x.name }}</a></td>
+                    <td>{{ x.model }}</td>
+                    <td>{{ x.stan }}<a href="./stan_update/{{ x.pk }}"> Zmien stan</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+ <a href="./addTerminal/">Dodaj terminal</a>
+</body>
+</html>

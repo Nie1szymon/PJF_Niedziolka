@@ -1,0 +1,25 @@
+<h1>Lista użytkowników</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nazwa użytkownika</th>
+            <th>Adres e-mail</th>
+            <th>Grupy</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for group in user.groups.all %}
+                        <span>{{ group.name }}</span>
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
