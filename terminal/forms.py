@@ -3,7 +3,7 @@ from django.http import request
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .models import Stan, ModelTerminal, Terminal, Event, Action
+from .models import Stan, ModelTerminal, Terminal, ActualEvent, Action
 
 
 class AddTerminalForm(forms.ModelForm):
@@ -40,5 +40,9 @@ class EventActionForm(forms.ModelForm):
     description = forms.ModelChoiceField(queryset=Stan.objects.all(), required=True, label='Stan terminala')
     user_id = forms.ModelChoiceField(queryset=Stan.objects.all(), required=True, label='Stan terminala')
     class Meta:
-        model = Event
+        model = ActualEvent
         fields = ['dataStart','timeStart','action','terminal','description','user_id']
+class AddEventFormNaprawa(forms.ModelForm):
+    class Meta:
+        model = ActualEvent
+        fields = ['dataStart', 'terminal', 'description', 'action',]

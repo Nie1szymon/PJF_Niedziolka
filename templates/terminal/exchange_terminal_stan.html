@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zgłoszenie Potrzeby Wymiany</title>
+</head>
+<body>
+
+<h1>Czy potrzebujesz wyłączyć terminal</h1>
+<i>jesli nie potrzebujesz kliknij potwierdź</i>
+{% if form.errors %}
+    <ul>
+        {% for error in form.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.stan.label }}: {{ form.stan }}
+
+    <input type="submit" value="Potwierdź">
+</form>
+
+</body>
+</html>

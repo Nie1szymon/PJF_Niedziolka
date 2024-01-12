@@ -9,8 +9,9 @@ Hi {{ user.username }}!
 <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
 <p><a href="{% url 'listofterminal' %}">List of Terminal</a></p>
 <p><a href="{% url 'listofevent' %}">List of Event</a></p>
+
 {% if request.user.is_staff %}
-    <p><a href="{% url 'listofuser' %}">List of User</a></p>
+    <p><a href="{% url 'listofuser' %}">List of Users</a></p>
 {% endif %}
 {% else %}
 <p>You are not logged in</p>

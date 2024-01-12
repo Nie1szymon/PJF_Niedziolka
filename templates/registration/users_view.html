@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>Lista użytkowników</h1>
 
 <table>
@@ -6,6 +9,7 @@
             <th>Nazwa użytkownika</th>
             <th>Adres e-mail</th>
             <th>Grupy</th>
+            <th>Zmień grupy</th>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +23,24 @@
                         {% if not loop.last %}, {% endif %}
                     {% endfor %}
                 </td>
+                <td>
+                    <form action="./change_group/{{ user.id }}" method="post">
+                        {% csrf_token %}
+                        {% for group in groups %}
+                            <input type="checkbox" name="groups[]" value="{{ group.id }}" {% if user in group.user_set.all %}checked{% endif %}> {{ group.name }}
+                        </input>
+                        <br>
+                    {% endfor %}
+                        <button type="submit">Zmień grupy</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+
+{% endblock %}

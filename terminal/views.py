@@ -1,9 +1,12 @@
+from django.core.checks import messages
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from django.utils.timezone import now
+from django.http import JsonResponse
 
-from .models import Terminal, Event, Stan, ModelTerminal, Action
-from .forms import AddTerminalForm, ModelTerminalForm, TerminalStanForm
+from .models import Terminal, ActualEvent, Stan, ModelTerminal, Action , HistoryEvent
+from .forms import AddTerminalForm, ModelTerminalForm, TerminalStanForm, AddEventFormNaprawa
 from django.contrib.auth.decorators import login_required
 
 
@@ -16,7 +19,7 @@ def terminal_stan_update(request, pk):
         form = TerminalStanForm(request.POST, instance=terminal)
         if form.is_valid():
             form.save()
-            event = Event(
+            event = HistoryEvent(
                 dataStart=timezone.now(),
                 timeStart=timezone.now(),
                 dataEnd=timezone.now(),
@@ -40,7 +43,7 @@ def add_terminal(request):
         if form.is_valid():
             terminal = form.save()
 
-            event = Event(
+            event = HistoryEvent(
                 dataStart=timezone.now(),
                 dataEnd=timezone.now(),
                 terminal=terminal,
@@ -53,6 +56,31 @@ def add_terminal(request):
     else:
         form = AddTerminalForm()
     return render(request, 'terminal/new_terminal.html', {'form': form})
+
+@login_required
+def add_event_exchange(request,pk):
+    terminal = Terminal.objects.get(pk=pk)
+    form = TerminalStanForm(instance=terminal)
+
+    if request.method == 'POST':
+        form = TerminalStanForm(request.POST, instance=terminal)
+        if form.is_valid():
+            form.save()
+            event = ActualEvent(
+                dataStart=timezone.now(),
+                timeStart=timezone.now(),
+                dataEnd=None,
+                timeEnd=None,
+                terminal=terminal,
+                description=f"zgłoszono terminal do wymiany",
+                action=Action.objects.get(pk=1),
+                user_id=request.user,
+            )
+            event.save()
+
+            return redirect('listofterminal')
+
+    return render(request, 'terminal/exchange_terminal_stan.html', {'form': form})
 
 
 @login_required
@@ -79,9 +107,14 @@ def ListOfTerminal(request):
 
 @login_required
 def ListOfEvent(request):
-    events = Event.objects.all()
-    events = events.select_related('terminal')
-    events = events.select_related('action')
-    events = events.select_related('user_id')
+    events_h = HistoryEvent.objects.all()
+    events_h = events_h.select_related('terminal')
+    events_h = events_h.select_related('action')
+    events_h = events_h.select_related('user_id')
 
-    return render(request, "terminal/list_of_events.html", {'events': events})
+    events_a = ActualEvent.objects.all()
+    events_a = events_a.select_related('terminal')
+    events_a = events_a.select_related('action')
+    events_a = events_a.select_related('user_id')
+
+    return render(request, "terminal/list_of_events.html", {'eventsH': events_h, 'eventsA': events_a})

@@ -35,7 +35,20 @@ class Action(models.Model):
         return self.name
 
 
-class Event(models.Model):
+class ActualEvent(models.Model):
+    dataStart = models.DateField()
+    timeStart = models.TimeField(null=True)
+    dataEnd = models.DateField(null=True)
+    timeEnd = models.TimeField(null=True)
+    terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE)
+    action = models.ForeignKey(Action, on_delete=models.CASCADE)
+    description = models.TextField(null=True)
+    user_id = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.action}"
+
+class HistoryEvent(models.Model):
     dataStart = models.DateField()
     timeStart = models.TimeField(null=True)
     dataEnd = models.DateField(null=True)

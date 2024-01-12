@@ -24,6 +24,7 @@
                     <td><a href="{% url 'home' %}">{{ x.name }}</a></td>
                     <td>{{ x.model }}</td>
                     <td>{{ x.stan }}<a href="./stan_update/{{ x.pk }}"> Zmien stan</a></td>
+                    <td><a href="./add_event_exchange/{{ x.pk }}"> Zgłoś potrzebe wymiany</a></td>
                 </tr>
             {% endfor %}
         </tbody>
