@@ -7,15 +7,31 @@
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</style>
   <title>{% block title %}Accounts{% endblock %}</title>
 </head>
 
 <body>
+  <header>
+      <div class="header-left">
+        <h1><a href="/">TerminalApp</a></h1>
+        <p>Witaj na mojej stronie internetowej!</p>
+    </div>
+    <div class="header-right">
+        <p><a href="{% url 'logout' %}">Log Out</a></p>
+        <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
+    </div>
+</header>
   <main>
     {% block content %}
         <h2>Obsługa terminali</h2>
     {% endblock %}
   </main>
+  <footer>
+      <p>Wszelkie prawa zastrzeżone. Ta strona korzysta z ciasteczek, aby świadczyć usługi na najwyższym poziomie.
+          Dalsze korzystanie ze strony oznacza, że zgadasz na ich użycie.</p>
+      <button id="okButton">OK</button>
+  </footer>
 </body>
 
 </html>

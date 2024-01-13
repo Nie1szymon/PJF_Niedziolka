@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Historia</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <div class="page-header">
             <h1>Historia</h1>
     </div>
@@ -66,5 +63,4 @@
         </tbody>
     </table>
     <a href="{% url 'home' %}">powrót</a>
-</body>
-</html>
+{% endblock %}

@@ -1,8 +1,80 @@
+@font-face {
+  font-family: "Retro_Computer";
+  src: url('fonts/Retro_Computer.ttf') format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Retro_Computer', sans-serif;
   background-color: #ffd76a;
 }
 
 h1 {
+  font: 'Retro_Computer';
   color: #ec833f;
+}
+h1 a{
+  color: #ec833f;
+}
+header {
+  display: flex;
+  background-color: #008b8b;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  margin-top: auto;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left {
+  padding-left: 50px;
+}
+
+.header-right {
+}
+.header-right a {
+  color: #fff; /* Domyślny kolor tekstu dla linków */
+}
+
+.header-right a:hover {
+  text-decoration: underline; /* Podkreślenie linku po najechaniu myszką */
+}
+footer {
+  background-color: #008b8b;
+  color: #fff;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  margin-top: auto;
+}
+.widget-container {
+  display: flex;
+  justify-content: space-around; /* Rozłożenie elementów równomiernie wokół kontenera */
+  margin-right: 10%;
+}
+a.widget-link {
+  display: block;
+  width: 150%; /* Szerokość elementu */
+  height: 20rem; /* Wysokość elementu */
+  justify-content: center;
+  background-color:#95bedd; /* Kolor tła */
+  align-items: center;
+  text-decoration: none; /* Usunięcie domyślnego podkreślenia */
+  border-radius: 10px; /* Zaokrąglenie krawędzi */
+  text-align: center;
+}
+
+a.widget-link img,
+a.widget-link object {
+  width: 60%; /* Szerokość ikony SVG */
+  height: 60%; /* Wysokość ikony SVG */
+  margin-top: 15%; /* Odstęp między ikonką a górną krawędzią */
+}
+
+a.widget-link span {
+  display: block;
+  margin-top: 10px; /* Odstęp między ikonką a tekstem */
+}
+button {
+  font-family: Retro_Computer;
 }

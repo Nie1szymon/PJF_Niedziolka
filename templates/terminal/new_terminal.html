@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dodaj terminal</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Dodaj terminal</h1>
 
     {% if form.errors %}
@@ -23,5 +20,4 @@
 
     <input type="submit" value="Zapisz">
 </form>
-</body>
-</html>
+{% endblock %}

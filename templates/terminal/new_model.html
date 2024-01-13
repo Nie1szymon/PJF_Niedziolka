@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dodaj nowy model</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
     <h1>Dodaj nowy model</h1>
 
     {% if form.errors %}
@@ -22,5 +19,4 @@
 
     <input type="submit" value="Zapisz">
 </form>
-</body>
-</html>
+{% endblock %}

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Zgłoszenie Potrzeby Wymiany</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
 
 <h1>Czy potrzebujesz wyłączyć terminal</h1>
 <i>jesli nie potrzebujesz kliknij potwierdź</i>
@@ -24,5 +20,4 @@
     <input type="submit" value="Potwierdź">
 </form>
 
-</body>
-</html>
+{% endblock %}
