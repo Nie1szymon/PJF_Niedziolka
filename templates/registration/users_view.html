@@ -24,12 +24,14 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <form action="./change_group/{{ user.id }}" method="post">
+                    <form action="../change_group/{{ user.id }}/" method="POST">
                         {% csrf_token %}
                         {% for group in groups %}
-                            <input type="checkbox" name="groups[]" value="{{ group.id }}" {% if user in group.user_set.all %}checked{% endif %}> {{ group.name }}
-                        </input>
-                        <br>
+                            <label>
+                                <input type="checkbox" name="groups[]" value="{{ group.id }}" {% if user in group.user_set.all %}checked{% endif %}> {{ group.name }}
+                            </input>
+                            </label>
+                            <br>
                     {% endfor %}
                         <button type="submit">Zmień grupy</button>
                     </form>
