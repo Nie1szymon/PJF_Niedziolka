@@ -1,7 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-
-
+    <h3>Bieżące</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data zgłoszenia</th>
+                <th>Godz</th>
+                <th>Data zakończenia</th>
+                <th>Godz</th>
+                <th>Terminal</th>
+                <th>typ Akcji</th>
+                <th>Opis</th>
+                <th>User</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in eventsA %}
+                <tr>
+                    <td>{{ x.dataStart }}</td>
+                    <td>{{ x.timeStart }}</td>
+                    <td>{{ x.dataEnd }}</td>
+                    <td>{{ x.timeEnd }}</td>
+                    <td>{{ x.terminal }}</td>
+                    <td>{{ x.action  }}</td>
+                    <td>{{ x.description }}</td>
+                    <td>{{ x.user_id }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

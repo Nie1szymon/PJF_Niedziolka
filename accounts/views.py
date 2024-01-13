@@ -9,9 +9,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
 
 def user_belongs_to_Manager(user):
-    return user.is_authenticated and user.groups.filter(name='Manager').exists()
+    return user.is_authenticated and (user.groups.filter(name='Manager').exists() or user.is_staff)
 
-@user_passes_test(user_belongs_to_Manager)
+#@user_passes_test(user_belongs_to_Manager)
 def users_view(request):
     users = User.objects.all()
     groups = Group.objects.all()

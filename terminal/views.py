@@ -72,8 +72,8 @@ def add_event_exchange(request,pk):
                 dataEnd=None,
                 timeEnd=None,
                 terminal=terminal,
-                description=f"zgłoszono terminal do wymiany",
-                action=Action.objects.get(pk=1),
+                description=f"zgłoszono terminal do naprawy z powodu",
+                action=Action.objects.get(pk=4),
                 user_id=request.user,
             )
             event.save()
@@ -111,10 +111,44 @@ def ListOfEvent(request):
     events_h = events_h.select_related('terminal')
     events_h = events_h.select_related('action')
     events_h = events_h.select_related('user_id')
+    events_h = events_h.order_by('-dataEnd')
 
     events_a = ActualEvent.objects.all()
     events_a = events_a.select_related('terminal')
     events_a = events_a.select_related('action')
     events_a = events_a.select_related('user_id')
+    events_a = events_a.order_by('dataStart')
 
     return render(request, "terminal/list_of_events.html", {'eventsH': events_h, 'eventsA': events_a})
+
+@login_required
+def add_event_repair(request):
+    events_a = ActualEvent.objects.all()
+    events_a = events_a.select_related('terminal')
+    events_a = events_a.select_related('action')
+    events_a = events_a.select_related('user_id')
+    events_a = events_a.order_by('dataStart')
+
+    return render(request, "terminal/repairEvent.html", {'eventsA': events_a})
+def move_to_history(request, event_id):
+    actual_event = ActualEvent.objects.get(pk=event_id)
+
+    if request.method == 'POST':
+        # Tworzenie obiektu w tabeli HistoryEvent na podstawie obiektu w tabeli ActualEvent
+        history_event = HistoryEvent.objects.create(
+            dataStart=actual_event.dataStart,
+            timeStart=actual_event.timeStart,
+            dataEnd=timezone.now(),
+            timeEnd=timezone.now(),
+            terminal=actual_event.terminal,
+            action=actual_event.action,
+            description=f"{actual_event.description} - Problem został rozwiązany przez {request.user}",
+            user_id=actual_event.user_id,
+        )
+
+        # Usunięcie obiektu z tabeli ActualEvent
+        actual_event.delete()
+
+        return redirect('eventsRepair')
+
+    return render(request, 'terminal/repairEvent.html')

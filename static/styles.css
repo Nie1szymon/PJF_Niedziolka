@@ -10,7 +10,6 @@ body {
 }
 
 h1 {
-  font: 'Retro_Computer';
   color: #ec833f;
 }
 h1 a{
@@ -66,7 +65,7 @@ a.widget-link {
 
 a.widget-link img,
 a.widget-link object {
-  width: 60%; /* Szerokość ikony SVG */
+  width: 200px; /* Szerokość ikony SVG */
   height: 60%; /* Wysokość ikony SVG */
   margin-top: 15%; /* Odstęp między ikonką a górną krawędzią */
 }
@@ -77,4 +76,68 @@ a.widget-link span {
 }
 button {
   font-family: Retro_Computer;
+  justify-items: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+form {
+  font-size: 25px;
+  font-weight: bolder;
+  max-width: 300px; /* Maksymalna szerokość formularza */
+  margin: 0 auto; /* Centrowanie formularza */
+  font-family: Retro_Computer;
+  place-items: center;
+}
+select{
+  font-family: Retro_Computer;
+  border: 10px solid;
+  font-weight: bold;
+  background-color:#ec833f ;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px; /* Odstęp między etykietą a polem formularza */
+}
+
+input[type="text"], input[type="email"], select {
+  width: 100%; /* Szerokość pól tekstowych i pól wyboru */
+  padding: 8px; /* Wewnętrzne marginesy pól formularza */
+  margin-bottom: 16px; /* Odstęp między polami formularza */
+  box-sizing: border-box; /* Uwzględnienie paddingu w szerokości elementu */
+  font-family: Retro_Computer;
+  background-color: #ec833f;
+}
+
+input[type="submit"] {
+  background-color: #4caf50; /* Kolor tła przycisku submit */
+  color: white; /* Kolor tekstu przycisku submit */
+  padding: 10px 15px; /* Wewnętrzne marginesy przycisku submit */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: Retro_Computer;
+  justify-items: center;
+  margin-bottom: 15px;
+}
+.inputGroup{
+  font-size: 15px;
+  margin: -10px;
+  margin-bottom: 0px;
 }

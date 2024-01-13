@@ -4,7 +4,6 @@
 <body>
     <div class="page-header">
         <h3><a href="./addModel/">Dodaj nowy model terminal</a></h3>
-            <h1><a href="/">List Terminali</a></h1>
     </div>
     <h1>Lista terminali</h1>
 
@@ -13,6 +12,7 @@
             <tr>
                 <th>Nazwa</th>
                 <th>Model</th>
+                <th>Stan</th>
                 <th>Stan</th>
             </tr>
         </thead>
@@ -27,5 +27,5 @@
             {% endfor %}
         </tbody>
     </table>
- <a href="./addTerminal/">Dodaj terminal</a>
+ <button><a href="./addTerminal/">Dodaj terminal</a></button>
 {% endblock %}
