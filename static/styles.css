@@ -26,6 +26,7 @@ header {
   justify-content: space-between;
 }
 .header-left {
+  place-items: center;
   padding-left: 50px;
 }
 
@@ -77,6 +78,8 @@ a.widget-link span {
 button {
   font-family: Retro_Computer;
   justify-items: center;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 table {
@@ -116,7 +119,7 @@ label {
   margin-bottom: 8px; /* Odstęp między etykietą a polem formularza */
 }
 
-input[type="text"], input[type="email"], select {
+input[type="text"], input[type="email"], select, textarea {
   width: 100%; /* Szerokość pól tekstowych i pól wyboru */
   padding: 8px; /* Wewnętrzne marginesy pól formularza */
   margin-bottom: 16px; /* Odstęp między polami formularza */
@@ -140,4 +143,15 @@ input[type="submit"] {
   font-size: 15px;
   margin: -10px;
   margin-bottom: 0px;
+}
+textarea {
+  font-family: Retro_Computer;
+  background-color: #ec833f;
+}
+#id_description {
+  font-family: Retro_Computer;
+  background-color: #ec833f;
+}
+.smallBottom {
+  font-size: 12px; /* Możesz dostosować rozmiar czcionki według własnych preferencji */
 }

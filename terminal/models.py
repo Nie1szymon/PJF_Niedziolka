@@ -43,7 +43,8 @@ class ActualEvent(models.Model):
     terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE)
     action = models.ForeignKey(Action, on_delete=models.CASCADE)
     description = models.TextField(null=True)
-    user_id = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    user_reporting = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name='reported_events')
+    user_solving = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT, related_name='solved_events')
 
     def __str__(self):
         return f"{self.action}"

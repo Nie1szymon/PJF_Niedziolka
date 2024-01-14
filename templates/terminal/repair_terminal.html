@@ -1,33 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h3>Bieżące</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Data zgłoszenia</th>
-                <th>Godz</th>
-                <th>Data zakończenia</th>
-                <th>Godz</th>
-                <th>Terminal</th>
-                <th>typ Akcji</th>
-                <th>Opis</th>
-                <th>User</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for x in eventsA %}
-                <tr>
-                    <td>{{ x.dataStart }}</td>
-                    <td>{{ x.timeStart }}</td>
-                    <td>{{ x.dataEnd }}</td>
-                    <td>{{ x.timeEnd }}</td>
-                    <td>{{ x.terminal }}</td>
-                    <td>{{ x.action  }}</td>
-                    <td>{{ x.description }}</td>
-                    <td>{{ x.user_id }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+<form method="POST" action="{% url 'update_actual_event' pk=actual_event.pk %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <p class="smallBottom">zapis daty w postaci MM/DD/RRRR</p>
+  <button type="submit">Zapisz zmiany</button>
+
+</form>
 {% endblock %}

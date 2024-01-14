@@ -8,10 +8,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.models import User, Group
 
+
 def user_belongs_to_Manager(user):
     return user.is_authenticated and (user.groups.filter(name='Manager').exists() or user.is_staff)
 
-#@user_passes_test(user_belongs_to_Manager)
+
+# @user_passes_test(user_belongs_to_Manager)
 def users_view(request):
     users = User.objects.all()
     groups = Group.objects.all()
@@ -33,6 +35,7 @@ def users_view(request):
 
     return render(request, 'registration/users_view.html', context)
 
+
 @user_passes_test(user_belongs_to_Manager)
 def change_group(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -45,8 +48,6 @@ def change_group(request, user_id):
 
         return HttpResponseRedirect(reverse('listofuser'))
     return render(request, '/accounts/listofuser/', {'user': user, 'groups': groups})
-
-
 
 
 class SignUpView(generic.CreateView):

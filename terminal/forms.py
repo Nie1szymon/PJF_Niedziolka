@@ -41,8 +41,27 @@ class EventActionForm(forms.ModelForm):
     user_id = forms.ModelChoiceField(queryset=Stan.objects.all(), required=True, label='Stan terminala')
     class Meta:
         model = ActualEvent
-        fields = ['dataStart','timeStart','action','terminal','description','user_id']
+        fields = ['dataStart','timeStart','action','terminal','description', 'user_reporting']
 class AddEventFormNaprawa(forms.ModelForm):
     class Meta:
         model = ActualEvent
         fields = ['dataStart', 'terminal', 'description', 'action',]
+
+class ActualEventForm(forms.ModelForm):
+    class Meta:
+        model = ActualEvent
+        fields = ['description']
+class ActualEventUpdateForm(forms.ModelForm):
+    ACTION_CHOICES = [
+        ('naprawa', 'Naprawa'),
+        ('wymiana', 'Wymiana'),
+    ]
+
+    action = forms.ChoiceField(choices=ACTION_CHOICES)
+    user_solving = forms.ModelChoiceField(
+        queryset=User.objects.filter(groups__name='OPERATORZY'),
+        label='User solving'
+    )
+    class Meta:
+        model = ActualEvent
+        fields = ['action', 'user_solving', 'dataEnd']

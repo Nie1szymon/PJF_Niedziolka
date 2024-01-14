@@ -1,23 +1,22 @@
 {% extends 'base.html' %}
 
+{% block title %}Add Event and Exchange Terminal Stan{% endblock %}
+
 {% block content %}
+  <h2>Add Event and Exchange Terminal Stan</h2>
 
-<h1>Czy potrzebujesz wyłączyć terminal</h1>
-<i>jesli nie potrzebujesz kliknij potwierdź</i>
-{% if form.errors %}
-    <ul>
-        {% for error in form.errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-<form method="POST">
+  <form method="post" class="form-actual-event">
     {% csrf_token %}
-
-    {{ form.stan.label }}: {{ form.stan }}
-
-    <input type="submit" value="Potwierdź">
-</form>
-
+    {{ form_terminal_stan.as_p }}
+    <hr>
+    <label for="{{ form_actual_event.description.id_for_label }}">Description:</label>
+    <textarea
+      name="{{ form_actual_event.description.name }}"
+      id="{{ form_actual_event.description.id_for_label }}"
+      cols="40"
+      rows="5"
+      style="width: 100%; resize: vertical; background-color: #ec833f;border: 10px solid;"
+    >{{ form_actual_event.description.value }}</textarea>
+    <button type="submit">Wyslij</button>
+  </form>
 {% endblock %}

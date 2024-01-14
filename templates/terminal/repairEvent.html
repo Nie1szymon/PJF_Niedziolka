@@ -1,13 +1,88 @@
 {% extends 'base.html' %}
 
-{% block title %}Repair Event{% endblock %}
-
 {% block content %}
-  <h2>Repair Event for Terminal {{ terminal_instance.id }}</h2>
-
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
+    <h3>oczekujace</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data zgłoszenia</th>
+                <th>Godz</th>
+                <th>Data zakończenia</th>
+                <th>Godz</th>
+                <th>Terminal</th>
+                <th>typ Akcji</th>
+                <th>Opis</th>
+                <th>User zglaszajacy</th>
+                <th>User rozwiazujacy</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in eventsA_pending %}
+                <tr>
+                    <td>{{ x.dataStart }}</td>
+                    <td>{{ x.timeStart }}</td>
+                    <td>{{ x.dataEnd }}</td>
+                    <td>{{ x.timeEnd }}</td>
+                    <td>{{ x.terminal }}</td>
+                    <td>{{ x.action }}</td>
+                    <td>{{ x.description }}</td>
+                    <td>{{ x.user_reporting }}</td>
+                    <td>{{ x.user_solving }}</td>
+                    <td>
+                        <form method="post" action="{% url 'move_to_history' x.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Problem Rozwiazny</button>
+                        </form>
+                        <form method="post" action="{% url 'update_actual_event' x.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Zaplanuj Rozwiazanie</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <h3>Zaplanowane</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data zgłoszenia</th>
+                <th>Godz</th>
+                <th>Data zakończenia</th>
+                <th>Godz</th>
+                <th>Terminal</th>
+                <th>typ Akcji</th>
+                <th>Opis</th>
+                <th>User zglaszajacy</th>
+                <th>User rozwiazujacy</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in eventsA_completed %}
+                <tr>
+                    <td>{{ x.dataStart }}</td>
+                    <td>{{ x.timeStart }}</td>
+                    <td>{{ x.dataEnd }}</td>
+                    <td>{{ x.timeEnd }}</td>
+                    <td>{{ x.terminal }}</td>
+                    <td>{{ x.action }}</td>
+                    <td>{{ x.description }}</td>
+                    <td>{{ x.user_reporting }}</td>
+                    <td>{{ x.user_solving }}</td>
+                    <td>
+                        <form method="post" action="{% url 'move_to_history' x.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Problem Rozwiazny</button>
+                        </form>
+                        <form method="post" action="{% url 'update_actual_event' x.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">zmien date lub osobe</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

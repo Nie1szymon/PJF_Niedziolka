@@ -1,13 +1,16 @@
-from django.core.checks import messages
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.utils.timezone import now
-from django.http import JsonResponse
 
-from .models import Terminal, ActualEvent, Stan, ModelTerminal, Action , HistoryEvent
-from .forms import AddTerminalForm, ModelTerminalForm, TerminalStanForm, AddEventFormNaprawa
-from django.contrib.auth.decorators import login_required
+from .forms import AddTerminalForm, ModelTerminalForm, TerminalStanForm, ActualEventForm, \
+    ActualEventUpdateForm
+from .models import Terminal, ActualEvent, Action, HistoryEvent
+
+
+def user_belongs_to_Operatorzy(user):
+    return user.is_authenticated and (user.groups.filter(name='OPERATORZY').exists() or user.is_staff)
 
 
 @login_required
@@ -57,30 +60,40 @@ def add_terminal(request):
         form = AddTerminalForm()
     return render(request, 'terminal/new_terminal.html', {'form': form})
 
+
 @login_required
-def add_event_exchange(request,pk):
-    terminal = Terminal.objects.get(pk=pk)
-    form = TerminalStanForm(instance=terminal)
+def add_event_exchange(request, pk):
+    terminal = get_object_or_404(Terminal, pk=pk)
+    form_terminal_stan = TerminalStanForm(instance=terminal)
+    form_actual_event = ActualEventForm()
 
     if request.method == 'POST':
-        form = TerminalStanForm(request.POST, instance=terminal)
-        if form.is_valid():
-            form.save()
-            event = ActualEvent(
-                dataStart=timezone.now(),
-                timeStart=timezone.now(),
-                dataEnd=None,
-                timeEnd=None,
-                terminal=terminal,
-                description=f"zgłoszono terminal do naprawy z powodu",
-                action=Action.objects.get(pk=4),
-                user_id=request.user,
-            )
-            event.save()
+        form_terminal_stan = TerminalStanForm(request.POST, instance=terminal)
+        form_actual_event = ActualEventForm(request.POST)
+
+        if form_terminal_stan.is_valid() and form_actual_event.is_valid():
+            form_terminal_stan.save()
+            description = form_actual_event.cleaned_data['description']
+
+            if description:
+                event = ActualEvent(
+                    dataStart=timezone.now(),
+                    timeStart=timezone.now(),
+                    dataEnd=None,
+                    timeEnd=None,
+                    terminal=terminal,
+                    description=f"zgłoszono terminal do naprawy z powodu: {description}",
+                    action=Action.objects.get(pk=4),
+                    user_reporting=request.user,
+                )
+                event.save()
 
             return redirect('listofterminal')
 
-    return render(request, 'terminal/exchange_terminal_stan.html', {'form': form})
+    return render(request, 'terminal/exchange_terminal_stan.html', {
+        'form_terminal_stan': form_terminal_stan,
+        'form_actual_event': form_actual_event,
+    })
 
 
 @login_required
@@ -105,7 +118,7 @@ def ListOfTerminal(request):
     return render(request, "terminal/list_of_terminal.html", {'terminals': terminals})
 
 
-@login_required
+@user_passes_test(user_belongs_to_Operatorzy)
 def ListOfEvent(request):
     events_h = HistoryEvent.objects.all()
     events_h = events_h.select_related('terminal')
@@ -116,20 +129,33 @@ def ListOfEvent(request):
     events_a = ActualEvent.objects.all()
     events_a = events_a.select_related('terminal')
     events_a = events_a.select_related('action')
-    events_a = events_a.select_related('user_id')
+    events_a = events_a.select_related('user_reporting')
     events_a = events_a.order_by('dataStart')
 
     return render(request, "terminal/list_of_events.html", {'eventsH': events_h, 'eventsA': events_a})
 
-@login_required
-def add_event_repair(request):
+
+@user_passes_test(user_belongs_to_Operatorzy)
+def view_event_repair(request):
     events_a = ActualEvent.objects.all()
     events_a = events_a.select_related('terminal')
     events_a = events_a.select_related('action')
-    events_a = events_a.select_related('user_id')
+    events_a = events_a.select_related('user_reporting')
     events_a = events_a.order_by('dataStart')
 
-    return render(request, "terminal/repairEvent.html", {'eventsA': events_a})
+    events_a_completed = events_a.filter(~Q(dataEnd=None))
+    events_a_pending = events_a.filter(dataEnd__isnull=True)
+    print(events_a_completed)
+    print(events_a_pending)
+    context = {
+        'eventsA_completed': events_a_completed,
+        'eventsA_pending': events_a_pending,
+    }
+
+    return render(request, "terminal/repairEvent.html", context)
+
+
+@user_passes_test(user_belongs_to_Operatorzy)
 def move_to_history(request, event_id):
     actual_event = ActualEvent.objects.get(pk=event_id)
 
@@ -143,7 +169,7 @@ def move_to_history(request, event_id):
             terminal=actual_event.terminal,
             action=actual_event.action,
             description=f"{actual_event.description} - Problem został rozwiązany przez {request.user}",
-            user_id=actual_event.user_id,
+            user_id=actual_event.user_reporting,
         )
 
         # Usunięcie obiektu z tabeli ActualEvent
@@ -152,3 +178,18 @@ def move_to_history(request, event_id):
         return redirect('eventsRepair')
 
     return render(request, 'terminal/repairEvent.html')
+
+
+@user_passes_test(user_belongs_to_Operatorzy)
+def update_actual_event(request, pk):
+    actual_event = get_object_or_404(ActualEvent, pk=pk)
+
+    if request.method == 'POST':
+        form = ActualEventUpdateForm(request.POST, instance=actual_event)
+        if form.is_valid():
+            form.save()
+            return redirect('eventsRepair')
+    else:
+        form = ActualEventUpdateForm(instance=actual_event)
+
+    return render(request, 'terminal/repair_terminal.html', {'form': form, 'actual_event': actual_event})
