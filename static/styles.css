@@ -33,7 +33,7 @@ header {
 .header-right {
 }
 .header-right a {
-  color: #fff; /* Domyślny kolor tekstu dla linków */
+  color: #fff;
 }
 
 .header-right a:hover {
@@ -49,13 +49,13 @@ footer {
 }
 .widget-container {
   display: flex;
-  justify-content: space-around; /* Rozłożenie elementów równomiernie wokół kontenera */
-  margin-right: 10%;
+  justify-content: space-around;
+  margin-right: 20%;
 }
 a.widget-link {
   display: block;
-  width: 150%; /* Szerokość elementu */
-  height: 20rem; /* Wysokość elementu */
+  width: 150%;
+  height: 20rem;
   justify-content: center;
   background-color:#95bedd; /* Kolor tła */
   align-items: center;
@@ -69,6 +69,7 @@ a.widget-link object {
   width: 200px; /* Szerokość ikony SVG */
   height: 60%; /* Wysokość ikony SVG */
   margin-top: 15%; /* Odstęp między ikonką a górną krawędzią */
+  margin-right: 200px;
 }
 
 a.widget-link span {
@@ -79,6 +80,7 @@ button {
   font-family: Retro_Computer;
   justify-items: center;
   align-items: center;
+  margin-top: 15px;
   margin-bottom: 15px;
 }
 

@@ -52,12 +52,10 @@ class ActualEventForm(forms.ModelForm):
         model = ActualEvent
         fields = ['description']
 class ActualEventUpdateForm(forms.ModelForm):
-    ACTION_CHOICES = [
-        ('naprawa', 'Naprawa'),
-        ('wymiana', 'Wymiana'),
-    ]
-
-    action = forms.ChoiceField(choices=ACTION_CHOICES)
+    action = forms.ModelChoiceField(
+        queryset=Action.objects.filter(name__in=['Naprawa', 'Wymiana']),
+        label='Action'
+    )
     user_solving = forms.ModelChoiceField(
         queryset=User.objects.filter(groups__name='OPERATORZY'),
         label='User solving'
