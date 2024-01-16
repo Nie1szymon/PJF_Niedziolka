@@ -13,7 +13,7 @@ def user_belongs_to_Manager(user):
     return user.is_authenticated and (user.groups.filter(name='Manager').exists() or user.is_staff)
 
 
-# @user_passes_test(user_belongs_to_Manager)
+@user_passes_test(user_belongs_to_Manager)
 def users_view(request):
     users = User.objects.all()
     groups = Group.objects.all()
@@ -31,8 +31,6 @@ def users_view(request):
         user.groups.set(group_ids)
         user.save()
 
-        context['message'] = f"User groups successfully updated for user {user.username}"
-
     return render(request, 'registration/users_view.html', context)
 
 
@@ -47,7 +45,7 @@ def change_group(request, user_id):
         user.save()
 
         return HttpResponseRedirect(reverse('listofuser'))
-    return render(request, '/accounts/listofuser/', {'user': user, 'groups': groups})
+    return render(request, 'registration/users_view.html', {'user': user, 'groups': groups})
 
 
 class SignUpView(generic.CreateView):

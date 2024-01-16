@@ -1,13 +1,12 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="PL">
 
 <head>
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
-</style>
   <title>{% block title %}TerminalApps{% endblock %}</title>
 </head>
 
@@ -15,7 +14,8 @@
   <header>
       <div class="header-left">
         <h1><a href="/">TerminalApp</a></h1>
-        <p>Milego dnia oraz milej pracy na TerminalApp!</p>
+        <p>Hi {{ user.username }}!</p>
+        <p>Milego dnia oraz milej zabawy na TerminalApp!</p>
     </div>
     <div class="header-right">
         <p><a href="{% url 'logout' %}">Log Out</a></p>

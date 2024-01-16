@@ -15,7 +15,7 @@
     {% csrf_token %}
 
     {{ form.name.label }}: {{ form.name }}
-    {{ form.year_production.label }}: {{ form.year_production }}
+    {{ form.year_production.label }} {{ form.year_production }}
 
     <input type="submit" value="Zapisz">
 </form>

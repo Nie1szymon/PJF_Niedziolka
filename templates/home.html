@@ -4,43 +4,41 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-Hi {{ user.username }}!
 <div class="widget-container">
-<p><a href="{% url 'listofterminal' %}" class="widget-link">
-    <object type="image/svg+xml" data="{% static 'icons/pos_terminal.svg' %}" width="80" height="80">
+<a href="{% url 'listofterminal' %}" class="widget-link">
+    <object type="image/svg+xml" data="{% static 'icons/pos_terminal.svg' %}" width="80px" height="80px">
       <!-- Komunikat wyświetlany, gdy przeglądarka nie obsługuje SVG -->
       Twoja przeglądarka nie obsługuje elementu SVG.
     </object>
     <span><b>List of Terminal</b></span>
+</a>
 
-</a></p>
-
-<p><a href="{% url 'listofevent' %}" class="widget-link">
-    <object type="image/svg+xml" data="{% static 'icons/clock.svg' %}" width="80" height="80">
+<a href="{% url 'listofevent' %}" class="widget-link">
+    <object type="image/svg+xml" data="{% static 'icons/clock.svg' %}" width="80px" height="80px">
       <!-- Komunikat wyświetlany, gdy przeglądarka nie obsługuje SVG -->
       Twoja przeglądarka nie obsługuje elementu SVG.
     </object>
     <span><b>Historia</b></span>
-</a></p>
+</a>
 
 {% load my_custom_tags %}
 {% if request.user|has_group:"OPERATORZY" or user.is_staff %}
-<p><a href="{% url 'eventsRepair' %}"class="widget-link">
-    <object type="image/svg+xml" data="{% static 'icons/repair.svg' %}" width="80" height="80">
+<a href="{% url 'eventsRepair' %}" class="widget-link">
+    <object type="image/svg+xml" data="{% static 'icons/repair.svg' %}" width="80px" height="80px">
       <!-- Komunikat wyświetlany, gdy przeglądarka nie obsługuje SVG -->
       Twoja przeglądarka nie obsługuje elementu SVG.
     </object>
     <span><b>Do Naprawy</b></span>
-</a></p>
+</a>
 {% endif %}
 {% if request.user|has_group:"Manager" or user.is_staff %}
-<p><a href="{% url 'listofuser' %}"class="widget-link">
+<a href="{% url 'listofuser' %}" class="widget-link">
     <object type="image/svg+xml" data="{% static 'icons/users.svg' %}" width="80" height="80">
       <!-- Komunikat wyświetlany, gdy przeglądarka nie obsługuje SVG -->
       Twoja przeglądarka nie obsługuje elementu SVG.
     </object>
     <span><b>List of Users</b></span>
-</a></p>
+</a>
 {% endif %}
 </div>
 {% else %}
