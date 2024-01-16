@@ -127,6 +127,7 @@ select{
   border: 10px solid;
   font-weight: bold;
   background-color:#ec833f ;
+
 }
 
 label {
@@ -141,7 +142,7 @@ input,input[type="text"], input[type="email"],input[type="password"], select, te
   box-sizing: border-box;
   font-family: Retro_Computer, serif;
   background-color: #ec833f;
-  border: solid;
+  border:10px solid;
 }
 
 input[type="submit"] {

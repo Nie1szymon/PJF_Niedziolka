@@ -3,13 +3,13 @@
 {% block title %}Add Event and Exchange Terminal Stan{% endblock %}
 
 {% block content %}
-  <h2>Add Event and Exchange Terminal Stan</h2>
+  <h1>ZGLos usterke</h1>
 
   <form method="post" class="form-actual-event">
+    <p> czy potrzebujesz zmienic stan terminala</p>
     {% csrf_token %}
     {{ form_terminal_stan.as_p }}
-    <hr>
-    <label for="{{ form_actual_event.description.id_for_label }}">Description:</label>
+    <label for="{{ form_actual_event.description.id_for_label }}">Napisz nam na czym polega usterka:</label>
     <textarea
       name="{{ form_actual_event.description.name }}"
       id="{{ form_actual_event.description.id_for_label }}"
@@ -17,6 +17,6 @@
       rows="5"
       style="width: 100%; resize: vertical; background-color: #ec833f;border: 10px solid;"
     >{{ form_actual_event.description.value }}</textarea>
-    <button type="submit">Wyslij</button>
+    <input type="submit"  value="Zapisz">
   </form>
 {% endblock %}

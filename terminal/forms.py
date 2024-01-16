@@ -1,6 +1,4 @@
 from django import forms
-from django.http import request
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 from .models import Stan, ModelTerminal, Terminal, ActualEvent, Action
@@ -32,6 +30,7 @@ class TerminalStanForm(forms.ModelForm):
         model = Terminal
         fields = ['stan', ]
 
+
 class EventActionForm(forms.ModelForm):
     dataStart = forms.DateField()
     timeStart = forms.TimeField()
@@ -39,18 +38,24 @@ class EventActionForm(forms.ModelForm):
     action = forms.ModelChoiceField(queryset=Stan.objects.all(), required=True, label='Stan terminala')
     description = forms.ModelChoiceField(queryset=Stan.objects.all(), required=True, label='Stan terminala')
     user_id = forms.ModelChoiceField(queryset=Stan.objects.all(), required=True, label='Stan terminala')
+
     class Meta:
         model = ActualEvent
-        fields = ['dataStart','timeStart','action','terminal','description', 'user_reporting']
+        fields = ['dataStart', 'timeStart', 'action', 'terminal', 'description', 'user_reporting']
+
+
 class AddEventFormNaprawa(forms.ModelForm):
     class Meta:
         model = ActualEvent
-        fields = ['dataStart', 'terminal', 'description', 'action',]
+        fields = ['dataStart', 'terminal', 'description', 'action', ]
+
 
 class ActualEventForm(forms.ModelForm):
     class Meta:
         model = ActualEvent
         fields = ['description']
+
+
 class ActualEventUpdateForm(forms.ModelForm):
     action = forms.ModelChoiceField(
         queryset=Action.objects.filter(name__in=['Naprawa', 'Wymiana']),
@@ -60,6 +65,7 @@ class ActualEventUpdateForm(forms.ModelForm):
         queryset=User.objects.filter(groups__name='OPERATORZY'),
         label='User solving'
     )
+
     class Meta:
         model = ActualEvent
         fields = ['action', 'user_solving', 'dataEnd']
