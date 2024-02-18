@@ -4,6 +4,11 @@
 <body>
     <button><a href="./addTerminal/"><h2>Dodaj terminal</h2></a></button>
     <button><a href="./addModel/"><h2>Dodaj nowy model terminal</h2></a></button>
+    <form action="{% url 'import_data' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Importuj dane</button>
+    </form>
+    <p>{{ message }}</p>
     <h1>Lista terminali</h1>
 
     <table class="table">

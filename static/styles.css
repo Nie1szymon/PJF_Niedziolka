@@ -5,7 +5,7 @@
   font-style: normal;
 }
 body {
-  font-family: 'Retro_Computer', sans-serif;
+  font-family: sans-serif;
   background-color: #ffd76a;
 }
 
@@ -90,7 +90,7 @@ a.widget-link span {
   align-items: center;
 }
 button {
-  font-family: Retro_Computer, serif;
+  font-family: serif;
   justify-items: center;
   align-items: center;
   margin-top: 15px;
@@ -119,11 +119,11 @@ form {
   font-weight: bolder;
   max-width: 600px;
   margin: 0 auto;
-  font-family: Retro_Computer, serif;
+  font-family: serif;
   place-items: center;
 }
 select{
-  font-family: Retro_Computer, serif;
+  font-family: serif;
   border: 10px solid;
   font-weight: bold;
   background-color:#ec833f ;
@@ -140,7 +140,7 @@ input,input[type="text"], input[type="email"],input[type="password"], select, te
   padding: 8px;
   margin-bottom: 16px;
   box-sizing: border-box;
-  font-family: Retro_Computer, serif;
+  font-family: serif;
   background-color: #ec833f;
   border:10px solid;
 }
@@ -152,7 +152,7 @@ input[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-family: Retro_Computer, serif;
+  font-family: serif;
   justify-items: center;
   margin-bottom: 15px;
 }
@@ -161,11 +161,11 @@ input[type="submit"] {
   margin: -10px -10px 0;
 }
 textarea {
-  font-family: Retro_Computer, serif;
+  font-family: serif;
   background-color: #ec833f;
 }
 #id_description {
-  font-family: Retro_Computer, serif;
+  font-family: serif;
   background-color: #ec833f;
 }
 .smallBottom {

@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
@@ -7,6 +8,8 @@ from django.views import generic
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.models import User, Group
+
+from accounts.forms import RegistrationForm
 
 
 def user_belongs_to_Manager(user):
@@ -49,6 +52,6 @@ def change_group(request, user_id):
 
 
 class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
+    form_class = RegistrationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"

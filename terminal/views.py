@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from .forms import AddTerminalForm, ModelTerminalForm, TerminalStanForm, ActualEventForm, \
-    ActualEventUpdateForm
-from .models import Terminal, ActualEvent, Action, HistoryEvent
+    ActualEventUpdateForm, ImportFileForm
+from .models import Terminal, ActualEvent, Action, HistoryEvent, ModelTerminal, Stan
 
 
 def user_belongs_to_Operatorzy(user):
@@ -193,3 +193,30 @@ def update_actual_event(request, pk):
         form = ActualEventUpdateForm(instance=actual_event)
 
     return render(request, 'terminal/repair_terminal.html', {'form': form, 'actual_event': actual_event})
+
+
+def import_data_from_file(request):
+    file_path = "C:\\Users\\Szymo\\Desktop\\terminal.txt"  # Stała ścieżka do pliku tekstowego
+
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                print(line)
+                # Przetwarzanie linii i zapis do bazy danych
+                name = line[:8].strip()  # Pierwsze 8 znaków to name
+                stan_code = line[8:11].strip()  # Następne 3 znaki to stan
+                model_name = line[-16:].strip()  # Ostatnie 16 znaków to model
+
+                # Pobieranie obiektów Stan i ModelTerminal na podstawie kodu i nazwy
+                stan = Stan.objects.get(name=stan_code)
+                model = ModelTerminal.objects.get(name=model_name)
+
+                # Tworzenie nowego obiektu Terminal i zapis do bazy danych
+                terminal = Terminal.objects.create(name=name, stan=stan, model=model)
+                terminal.save()
+
+        message = "Dane zaimportowane poprawnie."
+    except Exception as e:
+        message = f"Błąd podczas importowania danych: {str(e)}"
+
+    return render(request, 'terminal/list_of_terminal.html', {'message': message})

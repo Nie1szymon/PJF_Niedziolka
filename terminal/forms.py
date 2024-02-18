@@ -69,3 +69,8 @@ class ActualEventUpdateForm(forms.ModelForm):
     class Meta:
         model = ActualEvent
         fields = ['action', 'user_solving', 'dataEnd']
+
+
+class ImportFileForm(forms.Form):
+    file_path = forms.CharField(label="C:\\Users\\Szymo\\Desktop\\Studia sem5\\pfj\\projket\\TerminalsApp", max_length=100)
+    file_name = forms.CharField(label='terminal.txt', max_length=100)
