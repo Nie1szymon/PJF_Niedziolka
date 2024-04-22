@@ -1,16 +1,13 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from .forms import TerminalChangeForm
-from .models import Terminal, ModelTerminal, Stan
+from .forms import HistoryForm
+from .models import Terminal, ModelTerminal, Stan, HistoryOfAction
 
 
 def user_belongs_to_Operatorzy(user):
     return user.is_authenticated and (user.groups.filter(name='OPERATORZY').exists() or user.is_staff)
-
 
 
 # Create your views here.
@@ -19,22 +16,29 @@ def ListOfTerminal(request):
     terminals = Terminal.objects.all()
     terminals = terminals.select_related('stan')
     terminals = terminals.select_related('model')
+    terminals = terminals.select_related('next_stan')
 
-    return render(request, "terminal/list_of_terminal.html", {'terminals': terminals})
+    return render(request, 'terminal/list_of_terminal.html', {'terminals': terminals})
 
 
 def change_terminal_stan(request, terminal_id):
-    terminal = Terminal.objects.get(pk=terminal_id)
     if request.method == 'POST':
-        form = TerminalChangeForm(terminal, request.POST)
+        form = HistoryForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('nazwa_widoku')
+            terminal_change = form.save(commit=False)
+            terminal_change.terminal_id = terminal_id
+            terminal_change.date_zgloszenia = timezone.now()
+            terminal_change.time_zgloszenia = timezone.now()
+            terminal_change.user = request.user
+            terminal_change.save()
+            # Aktualizuj next_stan w modelu Terminal
+            terminal = Terminal.objects.get(pk=terminal_id)
+            terminal.next_stan = terminal_change.new_stan
+            terminal.save()
+            return redirect('listofterminal')  # Przekieruj na stronę powodzenia
     else:
-        form = TerminalChangeForm(terminal)
+        form = HistoryForm()
     return render(request, 'terminal/change_terminal_stan.html', {'form': form})
-
-
 
 
 def import_data_from_file(request):

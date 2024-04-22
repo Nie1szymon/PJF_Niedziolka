@@ -2,37 +2,35 @@
 
 {% block content %}
 <body>
-    <button><a href="./addTerminal/"><h2>Dodaj terminal</h2></a></button>
-    <button><a href="./addModel/"><h2>Dodaj nowy model terminal</h2></a></button>
-    <form action="{% url 'import_data' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Importuj dane</button>
-    </form>
-    <p>{{ message }}</p>
-    <h1>Lista terminali</h1>
-
-    <table class="table">
+    <h1>List of Terminals</h1>
+    <table>
         <thead>
             <tr>
-                <th>Nazwa</th>
+                <th>Name</th>
                 <th>Model</th>
                 <th>Stan</th>
-                <th>Akcja</th>
+                <th>Next Stan</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for x in terminals %}
-                <tr>
-                    <td><a href="{% url 'home' %}">{{ x.name }}</a></td>
-                    <td>{{ x.model }}</td>
-                    <td>{{ x.stan }}</td>
-                    <td>
-                        <button type="submit" class="btn btn-primary"><a href="./add_event_exchange/{{ x.pk }}"> Zglos usterke</a></button>
-                        <button type="submit" class="btn btn-primary"><a href="./stan_update/{{ x.pk }}"> Zmien stan</a></button>
-                    </td>
-                </tr>
+            {% for terminal in terminals %}
+            <tr>
+                <td>{{ terminal.name }}</td>
+                <td>{{ terminal.model.name }}</td>
+                <td>{{ terminal.stan.name }}</td>
+                <td>{{ terminal.next_stan.name }}</td>
+                <td>
+                    <form method="post" action="{% url 'change_terminal_stan' terminal.id %}">
+                            {% csrf_token %}
+                            <input type="submit"  value="zmien Stan">
+                        </form>
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
+
+</body>
 
 {% endblock %}
