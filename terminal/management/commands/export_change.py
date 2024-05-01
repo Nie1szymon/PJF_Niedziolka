@@ -22,11 +22,9 @@ class Command(BaseCommand):
         with open(filename, 'w') as file:
 
             terminals = Terminal.objects.exclude(Q(stan=F('next_stan')))
-            terminals = terminals.select_related('next_stan')
             # Iteruj przez każdy terminal i zapisz do pliku
             for terminal in terminals:
-                next_stan_value = "Y" if terminal.next_stan == "on_" else "N"
-                file.write(f'{terminal.name}{next_stan_value}\n')
+                file.write(f'{terminal.name}: {terminal.next_stan}\n')
 
         # Wyświetl komunikat o sukcesie
         self.stdout.write(self.style.SUCCESS(f'Terminals with different next_stan exported to {filename}'))
