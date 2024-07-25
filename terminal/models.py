@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Stan(models.Model):
-    name = models.CharField(primary_key=True, max_length=16, unique=True)
+    name = models.CharField(primary_key=True, max_length=3, unique=True)
 
     def __str__(self):
         return self.name
@@ -14,7 +14,6 @@ class Stan(models.Model):
 
 class ModelTerminal(models.Model):
     name = models.CharField(max_length=16, unique=True)
-    year_production = models.IntegerField()
 
     def __str__(self):
         return self.name
@@ -22,46 +21,21 @@ class ModelTerminal(models.Model):
 
 class Terminal(models.Model):
     name = models.CharField(max_length=16, unique=True)
-    stan = models.ForeignKey(Stan, on_delete=models.CASCADE)
+    stan = models.ForeignKey(Stan, on_delete=models.CASCADE, related_name='terminals_stan')
     model = models.ForeignKey(ModelTerminal, on_delete=models.CASCADE)
-
+    next_stan = models.ForeignKey(Stan, on_delete=models.CASCADE, null=True, blank=True,
+                                  related_name='terminals_next_stan')
     def __str__(self):
         return self.name
 
 
-class Action(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class ActualEvent(models.Model):
-    dataStart = models.DateField()
-    timeStart = models.TimeField(null=True)
-    dataEnd = models.DateField(null=True)
-    timeEnd = models.TimeField(null=True)
+class HistoryOfAction(models.Model):
+    date_zgloszenia = models.DateField()
+    time_zgloszenia = models.TimeField()
     terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE)
-    action = models.ForeignKey(Action, on_delete=models.CASCADE)
+    new_stan = models.ForeignKey(Stan, on_delete=models.CASCADE)
     description = models.TextField(null=True)
-    user_reporting = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE,
-                                       related_name='reported_events')
-    user_solving = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT,
-                                     related_name='solved_events')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.action}"
-
-
-class HistoryEvent(models.Model):
-    dataStart = models.DateField()
-    timeStart = models.TimeField(null=True)
-    dataEnd = models.DateField(null=True)
-    timeEnd = models.TimeField(null=True)
-    terminal = models.ForeignKey(Terminal, on_delete=models.CASCADE)
-    action = models.ForeignKey(Action, on_delete=models.CASCADE)
-    description = models.TextField(null=True)
-    user_id = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.action}"
+        return f"{self.terminal}"
